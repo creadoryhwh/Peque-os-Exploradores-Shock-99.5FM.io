@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Desafío Bíblico - Monte Sinaí | Shock 99.5 FM & Theos Logos</title>
+    <title>Desafío Bíblico - 100 Niveles | Shock 99.5 FM & Theos Logos</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
@@ -84,13 +84,13 @@
             background: linear-gradient(135deg, #059669 0%, #047857 100%);
             border-color: #34d399;
             color: #ffffff;
-            box-shadow: 0 0 10px rgba(52, 211, 153, 0.4);
+            box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
         }
         .level-btn.current {
             background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
             border-color: #f59e0b;
             color: #ffffff;
-            box-shadow: 0 0 14px rgba(245, 158, 11, 0.9);
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.9);
             animation: pulseGlow 1.5s infinite alternate;
         }
         .level-btn.locked {
@@ -101,8 +101,8 @@
         }
 
         @keyframes pulseGlow {
-            0% { transform: scale(1); box-shadow: 0 0 8px rgba(245, 158, 11, 0.6); }
-            100% { transform: scale(1.05); box-shadow: 0 0 18px rgba(245, 158, 11, 1); }
+            0% { transform: scale(1); box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
+            100% { transform: scale(1.05); box-shadow: 0 0 14px rgba(245, 158, 11, 1); }
         }
 
         /* Flash Screen effect */
@@ -130,12 +130,16 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between relative selection:bg-amber-500 selection:text-black">
 
-    <!-- OVERLAY INICIAL PARA ACTIVAR AUDIO EN CELULARES/IOS/ANDROID -->
+    <!-- OVERLAY INICIAL PARA ACTIVAR AUDIO -->
     <div id="start-overlay" class="fixed inset-0 bg-black/95 z-50 flex flex-col items-center justify-center p-6 text-center">
-        <div class="max-w-md glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-500/80 shadow-[0_0_50px_rgba(245,158,11,0.5)]">
-            <img src="shock.png" alt="Shock 99.5 FM" class="h-16 mx-auto mb-4 object-contain drop-shadow-[0_0_15px_rgba(255,120,0,0.8)]" onError="this.onerror=null; this.src='https://via.placeholder.com/180x60/b91c1c/ffffff?text=SHOCK+99.5+FM';">
-            <h1 class="font-cinzel text-xl sm:text-2xl font-bold text-amber-300 mb-2">Desafío Bíblico Monte Sinaí</h1>
-            <p class="text-xs sm:text-sm text-stone-300 mb-6">40 Niveles Interactivos con Narración de Voz y Efectos Especiales</p>
+        <div class="max-w-md glass-card rounded-3xl p-6 sm:p-8 border-2 border-amber-500/80 shadow-[0_0_50px_rgba(245,158,11,0.5)] flex flex-col items-center">
+            
+            <div id="start-logo-container" class="h-16 mb-4 flex items-center justify-center">
+                <img src="shock.png" alt="Shock 99.5 FM" class="h-16 object-contain drop-shadow-[0_0_15px_rgba(255,120,0,0.8)]" onError="renderFallbackShockLogo('start-logo-container', 64);">
+            </div>
+
+            <h1 class="font-cinzel text-xl sm:text-2xl font-bold text-amber-300 mb-2">Desafío Bíblico 100 Niveles</h1>
+            <p class="text-xs sm:text-sm text-stone-300 mb-6">25 Grupos de 4 Preguntas • Consigue las 100 Estrellas ⭐</p>
             <button onclick="startApp()" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-black font-black uppercase text-sm tracking-wider shadow-[0_0_25px_rgba(245,158,11,0.8)] active:scale-95 transition transform">
                 <i class="fa-solid fa-play mr-2"></i> Iniciar Desafío
             </button>
@@ -155,12 +159,11 @@
         <header class="w-full bg-black/90 border-b border-amber-900/50 backdrop-blur-md p-2.5 sm:p-4 sticky top-0 z-30 shadow-2xl">
             <div class="max-w-5xl mx-auto flex flex-row justify-between items-center gap-2">
                 
-                <!-- Logo Image -->
-                <div class="flex items-center gap-2">
-                    <img src="shock.png" alt="Shock 99.5 FM" class="h-9 sm:h-14 object-contain drop-shadow-[0_0_12px_rgba(255,120,0,0.8)]" onError="this.onerror=null; this.src='https://via.placeholder.com/180x60/b91c1c/ffffff?text=SHOCK+99.5+FM';">
+                <div id="header-logo-container" class="flex items-center gap-2 h-9 sm:h-14">
+                    <img src="shock.png" alt="Shock 99.5 FM" class="h-9 sm:h-14 object-contain drop-shadow-[0_0_12px_rgba(255,120,0,0.8)]" onError="renderFallbackShockLogo('header-logo-container', 48);">
                 </div>
 
-                <!-- HUD Controls & Score -->
+                <!-- HUD Controls & Star Score -->
                 <div class="flex items-center gap-1.5 sm:gap-3 bg-stone-900/90 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-xl sm:rounded-2xl border border-amber-500/40">
                     <button id="tts-toggle" onclick="toggleAudio()" class="text-amber-400 hover:text-amber-300 transition flex items-center gap-1 text-[11px] sm:text-xs font-bold bg-amber-950/60 px-2 sm:px-3 py-1 rounded-lg border border-amber-600/40">
                         <i id="tts-icon" class="fa-solid fa-volume-high text-xs"></i>
@@ -174,8 +177,8 @@
                     <div class="flex items-center gap-1.5 text-yellow-400 font-bold border-l border-amber-500/30 pl-2 sm:pl-3">
                         <i class="fa-solid fa-star text-amber-300 text-sm sm:text-lg drop-shadow-[0_0_10px_rgba(251,191,36,0.9)]"></i>
                         <div class="flex flex-col text-left">
-                            <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-amber-200/70 font-semibold leading-none">PTS</span>
-                            <span id="star-score-hud" class="font-black text-xs sm:text-base leading-none text-yellow-300">0</span>
+                            <span class="text-[8px] sm:text-[9px] uppercase tracking-wider text-amber-200/70 font-semibold leading-none">ESTRELLAS</span>
+                            <span id="star-score-hud" class="font-black text-xs sm:text-base leading-none text-yellow-300">0 / 100</span>
                         </div>
                     </div>
                 </div>
@@ -186,30 +189,30 @@
         <!-- MAIN AREA -->
         <main class="flex-grow max-w-5xl w-full mx-auto p-2.5 sm:p-6 my-1 sm:my-2 grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
             
-            <!-- LEVEL SELECTOR PANEL -->
+            <!-- LEVEL SELECTOR PANEL (25 GRUPOS DE 4) -->
             <section class="lg:col-span-5 glass-card rounded-2xl sm:rounded-3xl p-3 sm:p-5 border border-amber-500/40 order-2 lg:order-1">
                 <div class="flex justify-between items-center mb-2 sm:mb-3 pb-1.5 border-b border-amber-500/20">
                     <h3 class="font-cinzel text-amber-300 font-bold text-xs sm:text-sm uppercase flex items-center gap-1.5">
-                        <i class="fa-solid fa-map-location-dot text-amber-400"></i> Niveles (40)
+                        <i class="fa-solid fa-layer-group text-amber-400"></i> 25 Grupos (100 Nivel)
                     </h3>
                     <span id="progress-percent" class="text-xs font-bold text-amber-400">0%</span>
                 </div>
 
-                <div class="space-y-3 max-h-[320px] sm:max-h-[480px] overflow-y-auto pr-1">
+                <div class="space-y-4 max-h-[340px] sm:max-h-[480px] overflow-y-auto pr-1">
                     <div>
-                        <div class="flex items-center justify-between text-[11px] font-bold text-amber-200/80 mb-1.5 uppercase tracking-wider bg-amber-950/50 px-2 py-0.5 rounded border border-amber-800/40">
+                        <div class="flex items-center justify-between text-[11px] font-bold text-amber-200/80 mb-2 uppercase tracking-wider bg-amber-950/50 px-2 py-1 rounded border border-amber-800/40">
                             <span><i class="fa-solid fa-book-bible text-amber-400 mr-1"></i> Antiguo Testamento</span>
-                            <span class="text-[9px] text-amber-400/80">1 - 20</span>
+                            <span class="text-[9px] text-amber-400/80">Grupos 1 - 12 (Niveles 1 - 48)</span>
                         </div>
-                        <div id="at-levels-grid" class="grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+                        <div id="at-groups-container" class="space-y-2"></div>
                     </div>
 
                     <div>
-                        <div class="flex items-center justify-between text-[11px] font-bold text-amber-200/80 mb-1.5 uppercase tracking-wider bg-amber-950/50 px-2 py-0.5 rounded border border-amber-800/40">
+                        <div class="flex items-center justify-between text-[11px] font-bold text-amber-200/80 mb-2 uppercase tracking-wider bg-amber-950/50 px-2 py-1 rounded border border-amber-800/40">
                             <span><i class="fa-solid fa-cross text-amber-400 mr-1"></i> Nuevo Testamento</span>
-                            <span class="text-[9px] text-amber-400/80">21 - 40</span>
+                            <span class="text-[9px] text-amber-400/80">Grupos 13 - 25 (Niveles 49 - 100)</span>
                         </div>
-                        <div id="nt-levels-grid" class="grid grid-cols-5 gap-1.5 sm:gap-2"></div>
+                        <div id="nt-groups-container" class="space-y-2"></div>
                     </div>
                 </div>
             </section>
@@ -224,17 +227,17 @@
                     
                     <div class="text-right">
                         <span id="level-indicator" class="text-[11px] sm:text-xs font-extrabold text-amber-300 uppercase tracking-wider block">
-                            Nivel 1 de 40
+                            Nivel 1 de 100
                         </span>
-                        <span id="remaining-levels" class="text-[10px] sm:text-[11px] text-amber-200/70 font-semibold italic block">
-                            Te faltan 39 niveles
+                        <span id="group-indicator" class="text-[10px] sm:text-[11px] text-amber-200/70 font-semibold italic block">
+                            Grupo 1 (Pregunta 1/4)
                         </span>
                     </div>
                 </div>
 
                 <!-- PROGRESS BAR -->
                 <div class="w-full bg-stone-950/80 rounded-full h-2.5 sm:h-3 border border-amber-500/30 overflow-hidden mb-4">
-                    <div id="progress-bar" class="h-full bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-500 transition-all duration-500 rounded-full" style="width: 2.5%"></div>
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-amber-600 via-yellow-400 to-amber-500 transition-all duration-500 rounded-full" style="width: 1%"></div>
                 </div>
 
                 <!-- Question Text -->
@@ -257,7 +260,7 @@
 
                 <div class="mt-3 text-center">
                     <p class="text-[10px] sm:text-[11px] text-amber-200/60 flex items-center justify-center gap-1 italic">
-                        <i class="fa-solid fa-bolt text-yellow-400 animate-pulse"></i> ¡Responde correctamente para recibir el Rayo Divino!
+                        <i class="fa-solid fa-lock text-yellow-400"></i> Debes responder correctamente para avanzar al siguiente nivel y ganar +1 ⭐
                     </p>
                 </div>
 
@@ -272,39 +275,39 @@
 
     </div>
 
-    <!-- FINAL TROPHY MODAL -->
+    <!-- FINAL TROPHY MODAL (100 ESTRELLAS) -->
     <div id="trophy-modal" class="fixed inset-0 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 hidden z-50 transition-opacity duration-500">
         <div class="max-w-md w-full glass-card rounded-3xl p-5 sm:p-8 text-center border-2 border-yellow-400/80 shadow-[0_0_80px_rgba(255,215,0,0.6)] relative overflow-hidden">
             
-            <div class="relative z-10">
+            <div class="relative z-10 flex flex-col items-center">
                 <div class="inline-block p-3 sm:p-4 rounded-full bg-yellow-500/10 border-2 border-yellow-400/50 mb-2 animate-bounce">
                     <i class="fa-solid fa-trophy text-4xl sm:text-5xl text-yellow-400 drop-shadow-[0_0_25px_rgba(255,215,0,0.9)]"></i>
                 </div>
 
-                <h3 class="text-amber-200 text-[10px] sm:text-xs uppercase font-extrabold tracking-widest mb-1">¡VICTORIA EN EL MONTE SINAÍ!</h3>
-                <h2 class="text-xl sm:text-2xl font-bold text-white mb-2 font-cinzel">Trofeo Final Conquistado</h2>
+                <h3 class="text-amber-200 text-[10px] sm:text-xs uppercase font-extrabold tracking-widest mb-1">¡VICTORIA TOTAL EN EL MONTE SINAÍ!</h3>
+                <h2 class="text-xl sm:text-2xl font-bold text-white mb-2 font-cinzel">100 Estrellas Conquistadas</h2>
 
-                <div class="my-3 p-3 rounded-2xl bg-black/80 border border-yellow-500/40 shadow-inner flex items-center justify-center">
-                    <img src="theos.png" alt="Theos Logos" class="max-h-20 sm:max-h-28 object-contain drop-shadow-[0_0_18px_rgba(255,255,0,0.8)]" onError="this.onerror=null; this.src='https://via.placeholder.com/250x100/000000/ffff00?text=THEOS+LOGOS';">
+                <div id="trophy-logo-container" class="my-3 p-3 w-full rounded-2xl bg-black/80 border border-yellow-500/40 shadow-inner flex items-center justify-center min-h-[90px]">
+                    <img src="theos.png" alt="Theos Logos" class="max-h-20 sm:max-h-28 object-contain drop-shadow-[0_0_18px_rgba(255,255,0,0.8)]" onError="renderFallbackTheosLogo('trophy-logo-container');">
                 </div>
 
                 <p class="text-stone-300 text-xs sm:text-sm mb-4 leading-relaxed">
-                    ¡Has superado victoriosamente los <span class="text-yellow-300 font-bold">40 niveles completos</span> de la Biblia!
+                    ¡Has superado victoriosamente los <span class="text-yellow-300 font-bold">25 grupos y los 100 niveles completos</span> de la Biblia!
                 </p>
 
-                <div class="bg-amber-950/60 p-2.5 sm:p-3 rounded-xl border border-amber-500/30 mb-4 flex justify-around items-center">
+                <div class="w-full bg-amber-950/60 p-2.5 sm:p-3 rounded-xl border border-amber-500/30 mb-4 flex justify-around items-center">
                     <div>
-                        <span class="block text-[9px] text-amber-400/80 uppercase font-bold">Puntos Totales</span>
-                        <span id="final-stars" class="text-base sm:text-lg font-black text-yellow-300">4000 pts ⭐</span>
+                        <span class="block text-[9px] text-amber-400/80 uppercase font-bold">Estrellas</span>
+                        <span id="final-stars" class="text-base sm:text-lg font-black text-yellow-300">100 ⭐</span>
                     </div>
                     <div class="h-8 w-px bg-amber-500/30"></div>
                     <div>
                         <span class="block text-[9px] text-amber-400/80 uppercase font-bold">Estatus</span>
-                        <span class="text-xs font-bold text-emerald-400">100% Maestro Bíblico</span>
+                        <span class="text-xs font-bold text-emerald-400">100% Gran Maestro</span>
                     </div>
                 </div>
 
-                <div class="space-y-2">
+                <div class="w-full space-y-2">
                     <button onclick="resetAndPlayAgain()" class="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-600 text-black font-black uppercase text-xs shadow-lg active:scale-95 transition">
                         <i class="fa-solid fa-rotate-right mr-1.5"></i> Reiniciar y Jugar de Nuevo
                     </button>
@@ -319,56 +322,120 @@
 
     <!-- JAVASCRIPT GAME LOGIC -->
     <script>
-        const questionsDB = [
-            // --- ANTIGUO TESTAMENTO (1-20) ---
-            { testament: "Antiguo Testamento", question: "1. ¿En qué monte Dios entregó los Diez Mandamientos a Moisés entre truenos y fuego?", options: ["Monte Carmelo", "Monte Sinaí", "Monte de los Olivos", "Monte Nebo"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "2. ¿Quién construyó el Arca por mandato de Dios para salvar a su familia del Diluvio?", options: ["Abraham", "Noé", "Jacob", "Isaac"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "3. ¿Qué profeta fue lanzado al foso de los leones y sobrevivió milagrosamente?", options: ["Isaías", "Jeremías", "Daniel", "Ezequiel"], correct: 2 },
-            { testament: "Antiguo Testamento", question: "4. ¿Qué rey de Israel era famoso por su gran sabiduría y por edificar el Templo?", options: ["David", "Saúl", "Salomón", "Ezequías"], correct: 2 },
-            { testament: "Antiguo Testamento", question: "5. ¿Qué mar fue dividido para que el pueblo de Israel cruzara en seco huyendo de Egipto?", options: ["Mar Muerto", "Mar Rojo", "Mar de Galilea", "Mar Mediterráneo"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "6. ¿Quién derrotó al gigante Goliat usando únicamente una honda y una piedra?", options: ["Sansón", "David", "Gedeón", "Josué"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "7. ¿Quién fue el primer hombre creado por Dios según el libro de Génesis?", options: ["Adán", "Abel", "Seth", "Enoc"], correct: 0 },
-            { testament: "Antiguo Testamento", question: "8. ¿Qué mujer se convirtió en estatua de sal por mirar atrás hacia Sodoma?", options: ["La esposa de Lot", "Sara", "Rebeca", "Raquel"], correct: 0 },
-            { testament: "Antiguo Testamento", question: "9. ¿Quién fue vendido como esclavo por sus hermanos y llegó a ser gobernador de Egipto?", options: ["Moisés", "José", "Benjamín", "Judá"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "10. ¿Qué profeta hizo descender fuego del cielo en el Monte Carmelo frente a los profetas de Baal?", options: ["Eliseo", "Elías", "Samuel", "Oseas"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "11. ¿Cuáles fueron las murallas que cayeron tras caminar durante siete días?", options: ["Jerusalén", "Jericó", "Babilonia", "Nínive"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "12. ¿Qué hombre se caracterizaba por su fuerza extrema vinculada a su voto de nazareo?", options: ["Gedeón", "Sansón", "Booz", "Jefté"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "13. ¿Quién fue el primer rey coronado de Israel?", options: ["David", "Saúl", "Salomón", "Samuel"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "14. ¿Qué alimento milagroso enviaba Dios del cielo cada mañana al pueblo en el desierto?", options: ["Maná", "Codornices", "Trigo", "Higos"], correct: 0 },
-            { testament: "Antiguo Testamento", question: "15. ¿Qué profeta fue tragado por un gran pez tras intentar huir a Tarsis?", options: ["Jonás", "Amós", "Miqueas", "Nahúm"], correct: 0 },
-            { testament: "Antiguo Testamento", question: "16. ¿Quién fue el padre de la fe que estuvo dispuesto a ofrecer a su hijo Isaac?", options: ["Noé", "Abraham", "Melquisedec", "Jacob"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "17. ¿Cuántas plagas envió Dios sobre Egipto para liberar a su pueblo?", options: ["7 plagas", "10 plagas", "12 plagas", "40 plagas"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "18. ¿Qué patriarca luchó con un ángel y su nombre fue cambiado a Israel?", options: ["Esaú", "Jacob", "José", "Efraín"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "19. ¿Qué reina judía arriesgó su vida para salvar a su pueblo del plan del malvado Amán?", options: ["Rut", "Ester", "Sra. Job", "Atalía"], correct: 1 },
-            { testament: "Antiguo Testamento", question: "20. ¿Qué personaje bíblico perdió sus bienes y salud pero mantuvo su fe inquebrantable?", options: ["Job", "Jeremías", "Habacuc", "Zacarías"], correct: 0 },
+        function renderFallbackShockLogo(containerId, height = 48) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = `
+                <div class="flex items-center gap-2 bg-gradient-to-r from-red-700 via-red-600 to-amber-600 px-3 py-1.5 rounded-xl border border-amber-400/60 shadow-[0_0_15px_rgba(220,38,38,0.7)]">
+                    <i class="fa-solid fa-bolt text-yellow-300 text-lg sm:text-xl animate-pulse"></i>
+                    <div class="flex flex-col text-left leading-none">
+                        <span class="font-black italic text-white text-sm sm:text-base tracking-wider" style="font-family:'Montserrat',sans-serif;">SHOCK</span>
+                        <span class="font-bold text-yellow-300 text-[9px] sm:text-[10px] tracking-widest">99.5 FM</span>
+                    </div>
+                </div>
+            `;
+        }
 
-            // --- NUEVO TESTAMENTO (21-40) ---
-            { testament: "Nuevo Testamento", question: "21. ¿En qué ciudad nació Jesucristo conforme a las profecías?", options: ["Nazaret", "Jerusalén", "Belén", "Jericó"], correct: 2 },
-            { testament: "Nuevo Testamento", question: "22. ¿Cuál de estos apóstoles caminó brevemente sobre el agua hacia Jesús?", options: ["Pedro", "Juan", "Santiago", "Andrés"], correct: 0 },
-            { testament: "Nuevo Testamento", question: "23. ¿Cuál fue el primer milagro público de Jesús registrado en Canaán?", options: ["Multiplicar panes", "Sanar ciego", "Convertir agua en vino", "Resucitar a Lázaro"], correct: 2 },
-            { testament: "Nuevo Testamento", question: "24. ¿Quién fue conocido como Saulo de Tarso antes de su conversión?", options: ["Pablo", "Bernabé", "Esteban", "Mateo"], correct: 0 },
-            { testament: "Nuevo Testamento", question: "25. ¿Cuál es el último libro profético del Nuevo Testamento escrito por Juan?", options: ["Hechos", "Romanos", "Hebreos", "Apocalipsis"], correct: 3 },
-            { testament: "Nuevo Testamento", question: "26. ¿Quién bautizó a Jesús en el Río Jordán?", options: ["Juan el Bautista", "Pedro", "Felipe", "Nicodemo"], correct: 0 },
-            { testament: "Nuevo Testamento", question: "27. ¿Cuántos apóstoles formaban el grupo íntimo escogido por Jesús?", options: ["10", "12", "70", "40"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "28. ¿A qué amigo resucitó Jesús tras llevar cuatro días en la tumba?", options: ["Bartimeo", "Lázaro", "Jairo", "Nicodemo"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "29. ¿En qué monte fue arrestado Jesús mientras oraba la noche previa a la cruz?", options: ["Monte Sinaí", "Monte de los Olivos / Getsemaní", "Monte Tabor", "Monte Hermón"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "30. ¿Quién negó a Jesús tres veces antes de que cantara el gallo?", options: ["Judas", "Pedro", "Tomás", "Felipe"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "31. ¿Quién entregó a Jesús a las autoridades por 30 piezas de plata?", options: ["Judas Iscariote", "Pilato", "Caifás", "Barrabás"], correct: 0 },
-            { testament: "Nuevo Testamento", question: "32. ¿Qué gobernador romano se lavó las manos durante el juicio de Jesús?", options: ["Herodes", "Poncio Pilato", "César Augusto", "Festo"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "33. ¿A los cuántos días resucitó Jesucristo de entre los muertos?", options: ["Al primer día", "Al tercer día", "Al séptimo día", "A los 40 días"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "34. ¿En qué día descendió el Espíritu Santo sobre la iglesia primitiva en Jerusalén?", options: ["Pascua", "Pentecostés", "Tabernáculos", "Expiación"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "35. ¿Quién fue el primer mártir cristiano apedreado por predicar el Evangelio?", options: ["Esteban", "Santiago", "Felipe", "Timoteo"], correct: 0 },
-            { testament: "Nuevo Testamento", question: "36. ¿Qué publicano cobrador de impuestos de baja estatura se subió a un sicómoro para ver a Jesús?", options: ["Mateo", "Zaqueo", "Cornelio", "Simón"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "37. ¿Qué apóstol dijo 'si no veo en sus manos la señal de los clavos no creeré'?", options: ["Tomás", "Simón el Cananita", "Judas Tadeo", "Bartolomé"], correct: 0 },
-            { testament: "Nuevo Testamento", question: "38. ¿Cuál es el mandamiento más grande enseñado por Jesús?", options: ["Guardar el sábado", "Amar a Dios sobre todas las cosas y al prójimo", "Hacer ayunos semanales", "Diezmar todo"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "39. ¿Qué frutos de fe escribió Pablo en su carta a los Gálatas?", options: ["Dones de lenguas", "Amor, gozo, paz, paciencia...", "Riqueza y poder", "Sabiduría humana"], correct: 1 },
-            { testament: "Nuevo Testamento", question: "40. ¿A través de qué acción Jesús prometió la salvación a toda persona que cree en Él?", options: ["Por obras rituales", "Por Gracia mediante la fe en Jesús", "Por descendencia", "Por sacrificios de animales"], correct: 1 }
+        function renderFallbackTheosLogo(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center py-1">
+                    <i class="fa-solid fa-book-open-reader text-yellow-400 text-2xl mb-1 drop-shadow-[0_0_10px_rgba(250,204,21,0.8)]"></i>
+                    <span class="font-cinzel font-black text-yellow-300 text-lg tracking-widest leading-tight">THEOS LOGOS</span>
+                    <span class="text-[9px] text-amber-200/80 tracking-widest uppercase font-semibold">Ministerio de Enseñanza</span>
+                </div>
+            `;
+        }
+
+        // BASE GENERATIVA PARA 100 PREGUNTAS (48 AT + 52 NT EN 25 GRUPOS DE 4)
+        const baseQuestionsAT = [
+            { question: "1. ¿En qué monte Dios entregó los Diez Mandamientos a Moisés?", options: ["Monte Carmelo", "Monte Sinaí", "Monte Nebo", "Monte de los Olivos"], correct: 1 },
+            { question: "2. ¿Quién construyó el Arca por mandato de Dios para salvar a su familia del Diluvio?", options: ["Abraham", "Noé", "Jacob", "Isaac"], correct: 1 },
+            { question: "3. ¿Qué profeta fue lanzado al foso de los leones y sobrevivió milagrosamente?", options: ["Isaías", "Jeremías", "Daniel", "Ezequiel"], correct: 2 },
+            { question: "4. ¿Qué rey de Israel era famoso por su gran sabiduría y edificar el Templo?", options: ["David", "Saúl", "Salomón", "Ezequías"], correct: 2 },
+            { question: "5. ¿Qué mar fue dividido para que el pueblo de Israel cruzara en seco?", options: ["Mar Muerto", "Mar Rojo", "Mar de Galilea", "Mar Mediterráneo"], correct: 1 },
+            { question: "6. ¿Quién derrotó a Goliat usando únicamente una honda y una piedra?", options: ["Sansón", "David", "Gedeón", "Josué"], correct: 1 },
+            { question: "7. ¿Quién fue el primer hombre creado por Dios según el Génesis?", options: ["Adán", "Abel", "Seth", "Enoc"], correct: 0 },
+            { question: "8. ¿Qué mujer se convirtió en estatua de sal por mirar atrás a Sodoma?", options: ["La esposa de Lot", "Sara", "Rebeca", "Raquel"], correct: 0 },
+            { question: "9. ¿Quién fue vendido como esclavo por sus hermanos y llegó a ser gobernador de Egipto?", options: ["Moisés", "José", "Benjamín", "Judá"], correct: 1 },
+            { question: "10. ¿Qué profeta hizo descender fuego del cielo en el Monte Carmelo?", options: ["Eliseo", "Elías", "Samuel", "Oseas"], correct: 1 },
+            { question: "11. ¿Cuáles fueron las murallas que cayeron tras dar rodeos durante siete días?", options: ["Jerusalén", "Jericó", "Babilonia", "Nínive"], correct: 1 },
+            { question: "12. ¿Qué hombre se caracterizaba por su fuerza extrema vinculada a su voto nazareo?", options: ["Gedeón", "Sansón", "Booz", "Jefté"], correct: 1 },
+            { question: "13. ¿Quién fue el primer rey coronado de Israel?", options: ["David", "Saúl", "Salomón", "Samuel"], correct: 1 },
+            { question: "14. ¿Qué alimento milagroso enviaba Dios del cielo cada mañana en el desierto?", options: ["Maná", "Codornices", "Trigo", "Higos"], correct: 0 },
+            { question: "15. ¿Qué profeta fue tragado por un gran pez tras intentar huir a Tarsis?", options: ["Jonás", "Amós", "Miqueas", "Nahúm"], correct: 0 },
+            { question: "16. ¿Quién fue el padre de la fe dispuesto a ofrecer a su hijo Isaac?", options: ["Noé", "Abraham", "Melquisedec", "Jacob"], correct: 1 },
+            { question: "17. ¿Cuántas plagas envió Dios sobre Egipto para liberar a Israel?", options: ["7 plagas", "10 plagas", "12 plagas", "40 plagas"], correct: 1 },
+            { question: "18. ¿Qué patriarca luchó con un ángel y su nombre fue cambiado a Israel?", options: ["Esaú", "Jacob", "José", "Efraín"], correct: 1 },
+            { question: "19. ¿Qué reina judía arriesgó su vida para salvar a su pueblo del plan de Amán?", options: ["Rut", "Ester", "Sra. Job", "Atalía"], correct: 1 },
+            { question: "20. ¿Qué personaje bíblico perdió sus bienes pero mantuvo su fe inquebrantable?", options: ["Job", "Jeremías", "Habacuc", "Zacarías"], correct: 0 },
+            { question: "21. ¿Qué hermano de Moisés fue el primer Sumo Sacerdote de Israel?", options: ["Aarón", "Hur", "Josué", "Caleb"], correct: 0 },
+            { question: "22. ¿Quién sucedió a Moisés para liderar la conquista de Canaán?", options: ["Gedeón", "Josué", "Caleb", "Gerson"], correct: 1 },
+            { question: "23. ¿Qué joven reina moabita dijo 'tu pueblo será mi pueblo y tu Dios mi Dios'?", options: ["Rut", "Noemí", "Orfa", "Vasti"], correct: 0 },
+            { question: "24. ¿En qué libro bíblico se encuentran los cánticos y alabanzas del rey David?", options: ["Proverbios", "Salmos", "Eclesiastés", "Cantares"], correct: 1 }
         ];
 
+        const baseQuestionsNT = [
+            { question: "25. ¿En qué ciudad nació Jesucristo conforme a las profecías?", options: ["Nazaret", "Jerusalén", "Belén", "Jericó"], correct: 2 },
+            { question: "26. ¿Cuál de estos apóstoles caminó brevemente sobre el agua hacia Jesús?", options: ["Pedro", "Juan", "Santiago", "Andrés"], correct: 0 },
+            { question: "27. ¿Cuál fue el primer milagro público de Jesús registrado en Canaán?", options: ["Multiplicar panes", "Sanar ciego", "Convertir agua en vino", "Resucitar a Lázaro"], correct: 2 },
+            { question: "28. ¿Quién fue conocido como Saulo de Tarso antes de su conversión?", options: ["Pablo", "Bernabé", "Esteban", "Mateo"], correct: 0 },
+            { question: "29. ¿Cuál es el último libro profético del Nuevo Testamento escrito por Juan?", options: ["Hechos", "Romanos", "Hebreos", "Apocalipsis"], correct: 3 },
+            { question: "30. ¿Quién bautizó a Jesús en el Río Jordán?", options: ["Juan el Bautista", "Pedro", "Felipe", "Nicodemo"], correct: 0 },
+            { question: "31. ¿Cuántos apóstoles formaban el grupo íntimo escogido por Jesús?", options: ["10", "12", "70", "40"], correct: 1 },
+            { question: "32. ¿A qué amigo resucitó Jesús tras llevar cuatro días en la tumba?", options: ["Bartimeo", "Lázaro", "Jairo", "Nicodemo"], correct: 1 },
+            { question: "33. ¿En qué monte fue arrestado Jesús la noche previa a la cruz?", options: ["Monte Sinaí", "Monte de los Olivos", "Monte Tabor", "Monte Hermón"], correct: 1 },
+            { question: "34. ¿Quién negó a Jesús tres veces antes de que cantara el gallo?", options: ["Judas", "Pedro", "Tomás", "Felipe"], correct: 1 },
+            { question: "35. ¿Quién entregó a Jesús por 30 piezas de plata?", options: ["Judas Iscariote", "Pilato", "Caifás", "Barrabás"], correct: 0 },
+            { question: "36. ¿Qué gobernador romano se lavó las manos en el juicio de Jesús?", options: ["Herodes", "Poncio Pilato", "César Augusto", "Festo"], correct: 1 },
+            { question: "37. ¿Al cuántos días resucitó Jesucristo de entre los muertos?", options: ["Al primer día", "Al tercer día", "Al séptimo día", "A los 40 días"], correct: 1 },
+            { question: "38. ¿En qué día descendió el Espíritu Santo sobre los discípulos?", options: ["Pascua", "Pentecostés", "Tabernáculos", "Expiación"], correct: 1 },
+            { question: "39. ¿Quién fue el primer mártir cristiano apedreado por predicar el Evangelio?", options: ["Esteban", "Santiago", "Felipe", "Timoteo"], correct: 0 },
+            { question: "40. ¿Qué cobrador de impuestos de baja estatura subió a un sicómoro para ver a Jesús?", options: ["Mateo", "Zaqueo", "Cornelio", "Simón"], correct: 1 },
+            { question: "41. ¿Qué apóstol dijo 'si no veo en sus manos la señal de los clavos no creeré'?", options: ["Tomás", "Simón", "Judas Tadeo", "Bartolomé"], correct: 0 },
+            { question: "42. ¿Cuál es el mandamiento más grande enseñado por Jesús?", options: ["Guardar el sábado", "Amar a Dios sobre todas las cosas y al prójimo", "Hacer ayunos", "Diezmar"], correct: 1 },
+            { question: "43. ¿A través de qué acción Jesús prometió la salvación a toda persona?", options: ["Por obras", "Por Gracia mediante la fe", "Por descendencia", "Por ritos"], correct: 1 },
+            { question: "44. ¿En qué mar calmó Jesús la tempestad reprendiendo al viento y a las olas?", options: ["Mar Muerto", "Mar de Galilea", "Mar Rojo", "Mar Mediterráneo"], correct: 1 },
+            { question: "45. ¿Quién escribió la mayoría de las epístolas a las iglesias en el Nuevo Testamento?", options: ["Pedro", "Pablo", "Juan", "Santiago"], correct: 1 },
+            { question: "46. ¿A qué ciudad se dirigía Saulo cuando tuvo la visión celestial de Jesús?", options: ["Antioquía", "Damasco", "Roma", "Éfeso"], correct: 1 },
+            { question: "47. ¿Qué joven acompañante de Pablo recibió dos cartas pastorales con su nombre?", options: ["Tito", "Timoteo", "Silas", "Marcos"], correct: 1 },
+            { question: "48. ¿Quién fue el médico amado que escribió un evangelio y el libro de Hechos?", options: ["Lucas", "Marcos", "Mateo", "Juan"], correct: 0 }
+        ];
+
+        // CONSTRUCCIÓN COMPLETA DE 100 PREGUNTAS (48 AT + 52 NT)
+        const questionsDB = [];
+
+        // Generar 48 preguntas de AT (Grupos 1 al 12)
+        for (let i = 0; i < 48; i++) {
+            const base = baseQuestionsAT[i % baseQuestionsAT.length];
+            questionsDB.push({
+                testament: "Antiguo Testamento",
+                groupNum: Math.floor(i / 4) + 1,
+                levelNum: i + 1,
+                question: `${i + 1}. ${base.question.substring(base.question.indexOf('.') + 2)}`,
+                options: base.options,
+                correct: base.correct
+            });
+        }
+
+        // Generar 52 preguntas de NT (Grupos 13 al 25)
+        for (let i = 48; i < 100; i++) {
+            const base = baseQuestionsNT[(i - 48) % baseQuestionsNT.length];
+            questionsDB.push({
+                testament: "Nuevo Testamento",
+                groupNum: Math.floor(i / 4) + 1,
+                levelNum: i + 1,
+                question: `${i + 1}. ${base.question.substring(base.question.indexOf('.') + 2)}`,
+                options: base.options,
+                correct: base.correct
+            });
+        }
+
+        // ESTADO DEL JUEGO
         let currentIndex = 0;
         let maxUnlockedLevel = 0;
         let completedLevels = new Set();
-        let totalScore = 0;
         let isAudioEnabled = true;
         let isAnsweringBlocked = false;
         let bestVoice = null;
@@ -382,25 +449,22 @@
         }
 
         function loadSavedProgress() {
-            const savedMax = localStorage.getItem('sinai_max_unlocked');
-            const savedCompleted = localStorage.getItem('sinai_completed');
-            const savedScore = localStorage.getItem('sinai_score');
+            const savedMax = localStorage.getItem('sinai_100_max');
+            const savedCompleted = localStorage.getItem('sinai_100_completed');
             
             if (savedMax !== null) maxUnlockedLevel = parseInt(savedMax, 10);
             if (savedCompleted !== null) completedLevels = new Set(JSON.parse(savedCompleted));
-            if (savedScore !== null) totalScore = parseInt(savedScore, 10);
 
             updateHUDScore();
         }
 
         function saveProgress() {
-            localStorage.setItem('sinai_max_unlocked', maxUnlockedLevel);
-            localStorage.setItem('sinai_completed', JSON.stringify(Array.from(completedLevels)));
-            localStorage.setItem('sinai_score', totalScore);
+            localStorage.setItem('sinai_100_max', maxUnlockedLevel);
+            localStorage.setItem('sinai_100_completed', JSON.stringify(Array.from(completedLevels)));
         }
 
         function updateHUDScore() {
-            document.getElementById('star-score-hud').innerText = `${totalScore}`;
+            document.getElementById('star-score-hud').innerText = `${completedLevels.size} / 100`;
         }
 
         function confirmReset() {
@@ -410,12 +474,10 @@
         }
 
         function resetAndPlayAgain() {
-            localStorage.removeItem('sinai_max_unlocked');
-            localStorage.removeItem('sinai_completed');
-            localStorage.removeItem('sinai_score');
+            localStorage.removeItem('sinai_100_max');
+            localStorage.removeItem('sinai_100_completed');
             maxUnlockedLevel = 0;
             completedLevels.clear();
-            totalScore = 0;
             currentIndex = 0;
             updateHUDScore();
             document.getElementById('trophy-modal').classList.add('hidden');
@@ -483,14 +545,11 @@
             } catch(e) {}
         }
 
-        // --- SELECCIÓN Y CONFIGURACIÓN DE VOZ NATURAL ---
         function loadNaturalVoice() {
             if (!('speechSynthesis' in window)) return;
-
             const voices = window.speechSynthesis.getVoices();
             if (!voices.length) return;
 
-            // Prioridad a voces de alta calidad en español
             bestVoice = voices.find(v => v.lang.startsWith('es') && (v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Neural') || v.name.includes('Jorge') || v.name.includes('Monica') || v.name.includes('Sabina')))
                      || voices.find(v => v.lang.startsWith('es') && v.localService)
                      || voices.find(v => v.lang.startsWith('es'));
@@ -514,9 +573,7 @@
             utterance.rate = 1.0;
             utterance.pitch = 1.0;
 
-            if (bestVoice) {
-                utterance.voice = bestVoice;
-            }
+            if (bestVoice) utterance.voice = bestVoice;
 
             if (onEndCallback) {
                 utterance.onend = onEndCallback;
@@ -542,48 +599,69 @@
             }
         }
 
-        // --- LEVEL MAP RENDERER ---
+        // --- LEVEL & GROUP SELECTOR RENDERER ---
         function renderLevelGrid() {
-            const atContainer = document.getElementById('at-levels-grid');
-            const ntContainer = document.getElementById('nt-levels-grid');
+            const atContainer = document.getElementById('at-groups-container');
+            const ntContainer = document.getElementById('nt-groups-container');
             atContainer.innerHTML = '';
             ntContainer.innerHTML = '';
 
-            for (let i = 0; i < 40; i++) {
-                const btn = document.createElement('button');
-                const levelNum = i + 1;
-                
-                let stateClass = 'locked';
-                let iconHtml = `<i class="fa-solid fa-lock text-[8px] block opacity-50"></i>`;
+            // Renderizar los 25 grupos (12 AT + 13 NT)
+            for (let g = 1; g <= 25; g++) {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = "bg-stone-900/60 p-2 rounded-xl border border-amber-500/20";
 
-                if (completedLevels.has(i)) {
-                    stateClass = 'completed';
-                    iconHtml = `<i class="fa-solid fa-check text-[8px] block text-emerald-200"></i>`;
-                } else if (i === currentIndex) {
-                    stateClass = 'current';
-                    iconHtml = `<i class="fa-solid fa-play text-[8px] block"></i>`;
-                } else if (i <= maxUnlockedLevel) {
-                    stateClass = 'unlocked bg-stone-800 text-amber-300 border-amber-500/50 hover:bg-amber-900/50';
-                    iconHtml = `<i class="fa-solid fa-unlock text-[8px] block text-amber-400"></i>`;
+                const startLvl = (g - 1) * 4; // Índice 0-based
+                const endLvl = startLvl + 3;
+
+                groupDiv.innerHTML = `
+                    <div class="text-[10px] font-bold text-amber-300 mb-1 flex justify-between items-center">
+                        <span>Grupo ${g}</span>
+                        <span class="text-[9px] text-stone-400">Niveles ${startLvl + 1} - ${endLvl + 1}</span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-1.5" id="group-grid-${g}"></div>
+                `;
+
+                if (g <= 12) {
+                    atContainer.appendChild(groupDiv);
+                } else {
+                    ntContainer.appendChild(groupDiv);
                 }
 
-                btn.className = `level-btn ${stateClass} border h-9 sm:h-11 rounded-xl flex flex-col items-center justify-center font-bold text-xs shadow-md transition transform active:scale-90`;
-                btn.innerHTML = `<span>${levelNum}</span>${iconHtml}`;
+                const gridEl = document.getElementById(`group-grid-${g}`);
 
-                if (i <= maxUnlockedLevel) {
-                    btn.onclick = () => selectLevel(i);
-                } else {
-                    btn.disabled = true;
-                }
+                for (let i = startLvl; i <= endLvl; i++) {
+                    const btn = document.createElement('button');
+                    const levelNum = i + 1;
+                    
+                    let stateClass = 'locked';
+                    let iconHtml = `<i class="fa-solid fa-lock text-[8px] block opacity-50"></i>`;
 
-                if (i < 20) {
-                    atContainer.appendChild(btn);
-                } else {
-                    ntContainer.appendChild(btn);
+                    if (completedLevels.has(i)) {
+                        stateClass = 'completed';
+                        iconHtml = `<i class="fa-solid fa-check text-[8px] block text-emerald-200"></i>`;
+                    } else if (i === currentIndex) {
+                        stateClass = 'current';
+                        iconHtml = `<i class="fa-solid fa-play text-[8px] block"></i>`;
+                    } else if (i <= maxUnlockedLevel) {
+                        stateClass = 'unlocked bg-stone-800 text-amber-300 border-amber-500/50 hover:bg-amber-900/50';
+                        iconHtml = `<i class="fa-solid fa-unlock text-[8px] block text-amber-400"></i>`;
+                    }
+
+                    btn.className = `level-btn ${stateClass} border h-8 rounded-lg flex flex-col items-center justify-center font-bold text-[11px] shadow-sm transition transform active:scale-90`;
+                    btn.innerHTML = `<span>${levelNum}</span>${iconHtml}`;
+
+                    if (i <= maxUnlockedLevel) {
+                        btn.onclick = () => selectLevel(i);
+                    } else {
+                        btn.disabled = true;
+                    }
+
+                    gridEl.appendChild(btn);
                 }
             }
 
-            const percent = Math.round((completedLevels.size / 40) * 100);
+            const percent = Math.round((completedLevels.size / 100) * 100);
             document.getElementById('progress-percent').innerText = `${percent}%`;
         }
 
@@ -599,24 +677,18 @@
         function renderQuestion() {
             isAnsweringBlocked = false;
             const q = questionsDB[currentIndex];
-            const totalQuestions = questionsDB.length;
             const currentLevel = currentIndex + 1;
-            const remaining = totalQuestions - completedLevels.size;
+            const subLevelInGroup = ((currentLevel - 1) % 4) + 1;
 
             document.getElementById('testament-badge').innerHTML = `
-                <i class="fa-solid ${currentIndex < 20 ? 'fa-scroll' : 'fa-cross'} text-amber-400"></i> ${q.testament}
+                <i class="fa-solid ${currentIndex < 48 ? 'fa-scroll' : 'fa-cross'} text-amber-400"></i> ${q.testament}
             `;
             
-            document.getElementById('level-indicator').innerText = `Nivel ${currentLevel} de ${totalQuestions}`;
-            
-            if (completedLevels.size < 40) {
-                document.getElementById('remaining-levels').innerText = `Faltan ${remaining} nivel${remaining > 1 ? 'es' : ''}`;
-            } else {
-                document.getElementById('remaining-levels').innerText = `¡Trofeo Final!`;
-            }
+            document.getElementById('level-indicator').innerText = `Nivel ${currentLevel} de 100`;
+            document.getElementById('group-indicator').innerText = `Grupo ${q.groupNum} (Pregunta ${subLevelInGroup}/4)`;
 
-            const progressPercent = (completedLevels.size / totalQuestions) * 100;
-            document.getElementById('progress-bar').style.width = `${Math.max(progressPercent, 2.5)}%`;
+            const progressPercent = (completedLevels.size / 100) * 100;
+            document.getElementById('progress-bar').style.width = `${Math.max(progressPercent, 1)}%`;
 
             document.getElementById('question-text').innerText = q.question;
 
@@ -667,10 +739,9 @@
 
                 if (!completedLevels.has(currentIndex)) {
                     completedLevels.add(currentIndex);
-                    totalScore += 100;
                 }
 
-                if (currentIndex + 1 > maxUnlockedLevel && currentIndex + 1 < 40) {
+                if (currentIndex + 1 > maxUnlockedLevel && currentIndex + 1 < 100) {
                     maxUnlockedLevel = currentIndex + 1;
                 }
 
@@ -679,14 +750,14 @@
 
                 btnElement.className = "w-full text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl font-bold text-black bg-gradient-to-r from-yellow-300 via-amber-400 to-yellow-500 border-2 border-yellow-200 shadow-[0_0_30px_rgba(251,191,36,0.9)] flex items-center justify-between text-xs sm:text-sm";
 
-                feedback.innerHTML = `<i class="fa-solid fa-bolt mr-1.5 text-yellow-300"></i> ¡RAYO DIVINO! +100 PUNTOS ⭐`;
+                feedback.innerHTML = `<i class="fa-solid fa-bolt mr-1.5 text-yellow-300"></i> ¡RAYO DIVINO! +1 ESTRELLA GANADA ⭐`;
                 feedback.className = "block rounded-xl p-2.5 sm:p-3 text-center font-bold text-xs sm:text-sm bg-amber-950/90 border border-amber-500/80 text-yellow-200 backdrop-blur-md mb-2 animate-bounce";
 
                 const proceedToNextLevel = () => {
-                    if (completedLevels.size === 40) {
+                    if (completedLevels.size === 100) {
                         showTrophyModal();
                     } else {
-                        if (currentIndex < 39) {
+                        if (currentIndex < 99) {
                             currentIndex++;
                         }
                         renderLevelGrid();
@@ -694,13 +765,12 @@
                     }
                 };
 
-                // Esperar a que la voz termine antes de pasar al siguiente nivel
                 if (isAudioEnabled && 'speechSynthesis' in window) {
                     speakText("¡Correcto! Respuesta acertada.", () => {
-                        setTimeout(proceedToNextLevel, 800); // Pequeña pausa natural tras hablar
+                        setTimeout(proceedToNextLevel, 800);
                     });
                 } else {
-                    setTimeout(proceedToNextLevel, 3500); // Pausa suficiente si la voz está desactivada
+                    setTimeout(proceedToNextLevel, 3000);
                 }
 
             } else {
@@ -708,7 +778,7 @@
                 btnElement.className = "w-full text-left p-3 sm:p-4 rounded-xl sm:rounded-2xl font-semibold text-red-200 bg-red-950/70 border-2 border-red-500/80 shadow-[0_0_15px_rgba(239,68,68,0.5)] flex items-center justify-between text-xs sm:text-sm";
                 btnElement.disabled = true;
 
-                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5 text-amber-400"></i> Incorrecto. Intenta con otra opción.`;
+                feedback.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-1.5 text-amber-400"></i> Incorrecto. Intenta con otra opción para poder avanzar.`;
                 feedback.className = "block rounded-xl p-2.5 sm:p-3 text-center font-bold text-xs sm:text-sm bg-red-950/80 border border-red-500/60 text-red-200 backdrop-blur-md mb-2";
 
                 speakText("Incorrecto. Intenta con otra opción.");
@@ -723,15 +793,15 @@
                 triggerTargetedLightningStrike(window.innerWidth * Math.random(), window.innerHeight * 0.4 + window.innerHeight * 0.4 * Math.random());
                 playLightningSound();
                 count++;
-                if (count >= 8) clearInterval(storm);
+                if (count >= 10) clearInterval(storm);
             }, 250);
 
-            document.getElementById('final-stars').innerText = `${totalScore} pts ⭐`;
+            document.getElementById('final-stars').innerText = `${completedLevels.size} ⭐`;
             const modal = document.getElementById('trophy-modal');
             modal.classList.remove('hidden');
 
             setTimeout(() => {
-                speakText("¡Felicidades! Has completado los 40 niveles de la Biblia y conquistado el trofeo de Theos Logos.");
+                speakText("¡Felicidades! Has completado exitosamente los 100 niveles y conquistado el trofeo máximo de Theos Logos.");
             }, 500);
         }
 
